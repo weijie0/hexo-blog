@@ -1,3 +1,13 @@
+---
+layout:     post
+title:      "Xcode-CLT"
+date:       2019-09-22
+author:     "weijie"
+tags:
+    - 工具
+---
+
+
 ![image](https://miro.medium.com/max/2320/0*glm2SHyTdpQ-SBod)
 # gyp: No Xcode or CLT version
 Did you recently update your macOS Catalina to version 10.15.2? If you did, then you probably in the same boat too. What I immediately noticed from my terminal is this new shinny error about gyp: No Xcode or CLT version detected any time I ran either yarn install or npm install

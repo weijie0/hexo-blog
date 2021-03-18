@@ -4,7 +4,7 @@
 
 # Site
 title: Weijie's Blog
-subtitle: 'java dev'
+subtitle: 'Java Dev'
 description: 'Be what you wanna be!'
 keywords:
 author: Weijie
@@ -28,8 +28,19 @@ pretty_urls:
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "我要成为魔法师!"
+sidebar-about-description: "Weijie, 后端开发工程师"
 sidebar-avatar: img/avatar.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+
+# Friends
+friends: [
+    {
+        title: "weijie's live",
+        href: "https://weijie.live"
+    },{
+        title: "demo",
+        href: "https://demo.weijie.live"
+    }
+]
 
 # Featured Tags
 featured-tags: true                     # whether or not using Feature-Tags 
@@ -114,10 +125,10 @@ theme: huxblog
 #   repo: https://github.com/luanweijie/hexo-blog
 #   branch: gh-pages
 
-search:
-  path: search.xml
-  field: post
-  format: html
-  limit: 10000
+# search:
+#   path: search.xml
+#   field: post
+#   format: html
+#   limit: 10000
 
 

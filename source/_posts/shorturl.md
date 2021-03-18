@@ -1,8 +1,11 @@
 ---
-title: Short Url
-tags: [分享]
-categories: 
-- web后端
+layout:     post
+title:      "短连接生成"
+subtitle:   " \"quickly create a short link\""
+date:       2019-04-16 12:00:00
+author:     "weijie"
+tags:
+    - 工具
 ---
 
 # t.cn/xxx

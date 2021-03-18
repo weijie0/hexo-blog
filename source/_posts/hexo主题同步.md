@@ -1,8 +1,11 @@
 ---
-title: hexo主题同步
-tags: [分享]
-categories: 
-- 前端
+layout:     post
+title:      "hexo主题同步"
+subtitle:   "hexo"
+date:       2019-12-26 12:00:00
+author:     "weijie"
+tags:
+    - hexo
 ---
 
 ## 绑定子项目

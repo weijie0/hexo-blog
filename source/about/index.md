@@ -1,7 +1,11 @@
 ---
-title: 关于我
-date: 2019-12-04 13:28:18
+layout: "about"
+title: "About"
+date: 2016-04-21 04:48:33
+description: "Hey, this is Weijie."
+header-img: "img/about-bg.jpg"
+comments: true
 ---
-# Hello，我是栾威杰
-### 90后开发
-### 坐标北京
+
+>写写代码，做做设计，看看产品。
+>世界那么大，多玩玩看看。
