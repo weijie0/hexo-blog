@@ -4,6 +4,7 @@ title:      "短连接生成"
 subtitle:   " \"quickly create a short link\""
 date:       2019-04-16 12:00:00
 author:     "weijie"
+catalog:    true
 tags:
     - 工具
 ---

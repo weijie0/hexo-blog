@@ -3,6 +3,7 @@ layout:     post
 title:      "Xcode-CLT"
 date:       2019-09-22
 author:     "weijie"
+catalog:    true
 tags:
     - 工具
 ---

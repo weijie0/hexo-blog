@@ -4,6 +4,7 @@ title:      "Welcome to My Blog"
 subtitle:   "Hello World, Hello Blog"
 date:       2014-01-29 12:00:00
 author:     "weijie"
+catalog:    true
 tags:
     - demo
 ---

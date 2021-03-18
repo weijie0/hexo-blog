@@ -4,6 +4,7 @@ title:      "hexo主题同步"
 subtitle:   "hexo"
 date:       2019-12-26 12:00:00
 author:     "weijie"
+catalog:    true
 tags:
     - hexo
 ---
