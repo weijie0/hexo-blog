@@ -4,12 +4,17 @@
 
 # Site
 title: Weijie's Blog
-subtitle: ''
+subtitle: 'java dev'
 description: 'Be what you wanna be!'
 keywords:
 author: Weijie
 language: zh-CN
 timezone: Asia/Shanghai
+
+# Site settings
+SEOTitle: Weijie的博客 | Weijie's Blog
+header-img: img/home-bg.jpg
+email: weijie.luan@outlook.com
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -20,11 +25,21 @@ permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing index.html from permalinks
 
+
+# Sidebar settings
+sidebar: true                           # whether or not using Sidebar.
+sidebar-about-description: "我要成为魔法师!"
+sidebar-avatar: img/avatar.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+
+# Featured Tags
+featured-tags: true                     # whether or not using Feature-Tags
+featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+
 # Directory
 source_dir: source
 public_dir: public
 tag_dir: tags
-archive_dir: archives
+archive_dir: i_dont_wanna_use_default_archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
@@ -90,7 +105,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+theme: huxblog
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -102,3 +117,5 @@ search:
   field: post
   format: html
   limit: 10000
+
+
