@@ -110,7 +110,9 @@ theme: huxblog
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/luanweijie/hexo-blog
+  branch: gh-pages
 
 search:
   path: search.xml
