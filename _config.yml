@@ -122,6 +122,15 @@ theme: huxblog
 ba_track_id: 3f4bd38541fe49d20035b28a70c089ae
 busuanzi: true
 
+# SNS settings
+RSS: atom.xml
+weibo_username: 3948757700
+zhihu_username:     
+github_username: luanweijie
+twitter_username:   
+facebook_username:  
+linkedin_username:  
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 # deploy:
