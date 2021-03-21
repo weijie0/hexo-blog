@@ -118,6 +118,9 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: huxblog
 
+# 统计分析
+ba_track_id: 3f4bd38541fe49d20035b28a70c089ae
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 # deploy:
