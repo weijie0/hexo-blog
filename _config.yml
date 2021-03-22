@@ -131,6 +131,10 @@ twitter_username:
 facebook_username:  
 linkedin_username:  
 
+
+# Disqus settings
+disqus_username: weijieluan
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 # deploy:
