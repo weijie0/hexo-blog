@@ -2,9 +2,10 @@
 layout:     post
 title:      "springboot validator优雅的校验参数"
 subtitle:   "springboot validator"
-date:       2021-03-24 12:00:00
+date:       2021-03-24
 author:     "weijie"
 catalog:    true
+header-img: "00-earth-splash-1x-ltr.jpg"
 tags:
     - springboot
     - validator

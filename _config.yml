@@ -5,16 +5,9 @@
 # Site
 title: Weijie's Blog
 subtitle: 'Java Dev'
-description: 'Be what you wanna be!'
-keywords:
 author: Weijie
 language: zh-CN
 timezone: Asia/Shanghai
-
-# Site settings
-SEOTitle: Weijie的博客 | Weijie's Blog
-header-img: img/home-bg.jpg
-email: weijie.luan@outlook.com
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -22,14 +15,49 @@ url: http://hexo.weijie.live
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
-pretty_urls:
-  trailing_index: true # Set to false to remove trailing index.html from permalinks
 
+#Custom Setting Start
+
+# Site settings
+SEOTitle: Weijie的博客 | Weijie's Blog
+header-img: img/home-bg.jpg
+email: weijie.luan@outlook.com
+description: 'Be what you wanna be!'
+keywords: 
+
+# SNS settings
+RSS: atom.xml
+weibo_username: 3948757700
+zhihu_username:     
+github_username: luanweijie
+twitter_username:   
+facebook_username:  
+linkedin_username:  
+
+# Build settings
+anchorjs: false        # if you want to customize anchor. check out line:181 of `post.html`
+
+
+# Disqus settings
+disqus_username: hexo-weijie-live
+
+# Analytics settings
+# Baidu Analytics
+ba_track_id: 3f4bd38541fe49d20035b28a70c089ae
+busuanzi: true
+# Google Analytics
+ga_track_id: 
+ga_domain: 
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "Weijie, 后端开发工程师"
 sidebar-avatar: img/avatar.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+
+
+# Featured Tags
+featured-tags: true                     # whether or not using Feature-Tags 
+featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
 
 # Friends
 friends: [
@@ -42,9 +70,8 @@ friends: [
     }
 ]
 
-# Featured Tags
-featured-tags: true                     # whether or not using Feature-Tags 
-featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+#Custom Setting End
+
 
 # Directory
 source_dir: source
@@ -60,29 +87,18 @@ skip_render:
 new_post_name: :title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
-external_link:
-  enable: true # Open external links in new tab
-  field: site # Apply to the whole site
-  exclude: ''
+external_link: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
   enable: true
   line_number: true
-  auto_detect: false
-  tab_replace: ''
+  auto_detect: true
+  tab_replace:
 
-# Home page setting
-# path: Root path for your blogs index page. (default = '')
-# per_page: Posts displayed per page. (0 = disable pagination)
-# order_by: Posts order. (Order by date descending by default)
-index_generator:
-  path: ''
-  per_page: 10
-  order_by: -date
 
 # Category & Tag
 default_category: uncategorized
@@ -118,22 +134,7 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: huxblog
 
-# 统计分析
-ba_track_id: 3f4bd38541fe49d20035b28a70c089ae
-busuanzi: true
 
-# SNS settings
-RSS: atom.xml
-weibo_username: 3948757700
-zhihu_username:     
-github_username: luanweijie
-twitter_username:   
-facebook_username:  
-linkedin_username:  
-
-
-# Disqus settings
-disqus_username: hexo-weijie-live
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
