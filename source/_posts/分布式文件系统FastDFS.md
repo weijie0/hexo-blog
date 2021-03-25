@@ -2,7 +2,7 @@
 layout:     post
 title:      "分布式文件系统FastDFS"
 subtitle:   "FastDFS是一个开源的分布式文件系统"
-date:       2020-03-25 12:00:00
+date:       2021-03-25 12:00:00
 author:     "weijie"
 catalog:    true
 tags:
