@@ -1,11 +1,2 @@
-User-agent: *
-Allow: /
-Allow: /archives/
-Allow: /tags/
-Allow: /about/
-
-Disallow: /js/
-Disallow: /css/
-
 Sitemap: https://hexo.weijie.live/baidusitemap.xml
 Sitemap: https://hexo.weijie.live/sitemap.xml
