@@ -37,5 +37,6 @@ tags:
 - [开发工具](https://www.jetbrains.com/go/)
 - [安装包下载](https://golang.org/dl/) - 或https://golang.google.cn/dl/
 - [the-way-to-go](https://github.com/unknwon/the-way-to-go_ZH_CN) - 在线阅读
+- [Go by Example](https://gobyexample.com/)
 
 

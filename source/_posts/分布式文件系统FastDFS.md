@@ -5,6 +5,7 @@ subtitle:   "FastDFS是一个开源的分布式文件系统"
 date:       2021-03-25 12:00:00
 author:     "weijie"
 catalog:    true
+header-img: "hero-main.png"
 tags:
     - FastDFS
 ---
