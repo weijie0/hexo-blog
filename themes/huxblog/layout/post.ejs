@@ -127,7 +127,7 @@ layout: layout
 </article>
 <script>
     var gitalk = new Gitalk({
-        id: location.pathname,
+        id: decodeURI(location.pathname),
         clientID: '80dac5675f164dccc899',
         clientSecret: '511d687a42267f465ff49b3e3dcbdb9a2dc1c88d',
         repo: 'hexo-blog',
