@@ -69,6 +69,7 @@ layout: layout
                 </div>
                 <!-- disqus 评论框 end -->
                 <% } %>
+                <div id="gitalk-container"></div>
 
             </div>
     <!-- Side Catalog Container -->
@@ -124,7 +125,19 @@ layout: layout
         </div>
     </div>
 </article>
-
+<script>
+    var gitalk = new Gitalk({
+        id: location.pathname,
+        clientID: '80dac5675f164dccc899',
+        clientSecret: '511d687a42267f465ff49b3e3dcbdb9a2dc1c88d',
+        repo: 'hexo-blog',
+        owner: 'luanweijie',
+        admin: ['luanweijie'],
+        labels: ['gitment'],
+        perPage: 50,
+    })
+    gitalk.render('gitalk-container')
+</script>
 <% if(config['disqus_username']) { %>
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
