@@ -2,14 +2,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"  content="<%= config.keyword %>">
+    <meta name="description" content="<%- page.title||config.description %>">
     <% if (page.title) { %>
       <title><%= page.title + ' - ' + config.SEOTitle %></title>
-      <meta name="description" content="<%= page.title %>">
     <% } else{%>
-      <title<%= config.SEOTitle %>></title>
-      <meta name="description" content="<%= config.description %>">
+      <title><%= config.SEOTitle %>></title>
     <% } %>
-    <meta name="keyword"  content="<%= config.keyword %>">
     <link rel="shortcut icon" href="<%= config.root %>img/favicon.ico">
     <link rel="canonical" href="<%= config.url + config.root + (page.path||'').replace('index.html', '') %>">
 
