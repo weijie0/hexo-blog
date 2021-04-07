@@ -7,7 +7,7 @@
     <% if (page.title) { %>
       <title><%= page.title + ' - ' + config.SEOTitle %></title>
     <% } else{%>
-      <title><%= config.SEOTitle %>></title>
+      <title><%= config.SEOTitle %></title>
     <% } %>
     <link rel="shortcut icon" href="<%= config.root %>img/favicon.ico">
     <link rel="canonical" href="<%= config.url + config.root + (page.path||'').replace('index.html', '') %>">
