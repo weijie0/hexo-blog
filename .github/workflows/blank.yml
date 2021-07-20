@@ -24,7 +24,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      - name: Setup Node.js 12.x 
+        uses: actions/setup-node@master
+        with:
+          node-version: "12.x"
+    
+      - name: Setup Hexo Dependencies
+        run: |
+          npm install hexo-cli -g
+          npm install
+        
       # Runs a single command using the runners shell
       - name: generate static files
         run: hexo generate
