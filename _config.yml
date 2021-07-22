@@ -146,7 +146,7 @@ theme: huxblog
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: github
+  type: git
   repo: git@github.com:luanweijie/hexo-blog.git
   branch: gh-pages
 
