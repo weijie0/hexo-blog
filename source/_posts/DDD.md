@@ -5,7 +5,6 @@ subtitle:   "DDD是啥"
 date:       2021-07-26
 author:     "weijie"
 catalog:    true
-header-img: "JxoDiHGdOK5q7Nj.jpg"
 tags:
     - DDD
 ---
