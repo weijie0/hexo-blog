@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Weijie&#39;s Blog</title>
+  <icon>https://www.gravatar.com/avatar/def1931ca1c952f63f38be399b2c9d8e</icon>
+  <subtitle>美好不过刚刚好</subtitle>
+  <link href="https://hexo.weijie.live/atom.xml" rel="self"/>
+  
+  <link href="https://hexo.weijie.live/"/>
+  <updated>2021-07-29T11:01:26.405Z</updated>
+  <id>https://hexo.weijie.live/</id>
+  
+  <author>
+    <name>Weijie</name>
+    <email>weijie.luan@outlook.com</email>
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>浅谈DDD</title>
+    <link href="https://hexo.weijie.live/2021/07/25/DDD/"/>
+    <id>https://hexo.weijie.live/2021/07/25/DDD/</id>
+    <published>2021-07-25T16:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.405Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="DDD是啥？"><a href="#DDD是啥？" class="headerlink" title="DDD是啥？"></a>DDD是啥？</h2><p>DDD是一种围绕领域建模来解决复杂业务交付的设计思想。读者不妨自问几个问题，什么是复杂？什么是领域建模？</p><h3 id="什么是复杂？如何理解复杂？"><a href="#什么是复杂？如何理解复杂？" class="headerlink" title="什么是复杂？如何理解复杂？"></a>什么是复杂？如何理解复杂？</h3><p>复杂可能是现状业务就复杂，也可能是业务日渐演变成复杂。复杂来自规模在变，比如几个业务对象的逻辑不复杂，几十上百个业务对象就会变得错综复杂。复杂来自结构化不足，比如下图所示，结构化的中国结比非结构化的意大利面更有序、易于大脑理解。此外，一旦协同方多了，如何协同不同团队完成软件交付也是一种复杂。</p><p><img src="what.jpg" alt="img"></p><h3 id="什么是领域建模？"><a href="#什么是领域建模？" class="headerlink" title="什么是领域建模？"></a>什么是领域建模？</h3><p>领域模型跟技术毫无关系，而是为了更有结构化的拆解和表达业务逻辑。业务逻辑来自现实世界里的具体场景，涉及可视画面、操作动作和流程。要准确表达业务逻辑需要先讲清楚每个概念是什么，再建立概念之间的联系，基于这些关系再组合出更多的流程。概念、联系、流程就是领域模型。围绕领域模型去表达业务时也自然而然地把技术实现细节分离出去了。后续代码实现就是将业务架构映射到系统架构的过程，以后业务架构调整了能快速的调整技术架构。</p><h3 id="DDD中的领域如何理解？"><a href="#DDD中的领域如何理解？" class="headerlink" title="DDD中的领域如何理解？"></a>DDD中的领域如何理解？</h3><p>DDD中表示业务逻辑的领域概念是：实体、值对象、领域服务、领域事件。这意味着所有领域逻辑都应该在这四种对象里，统一称为领域模型对象，这将极大减少业务逻辑的蔓延。</p><p>引入聚合进一步封装实体和值对象，让领域逻辑更内聚，起到边界保护的作用。聚合的引入使得业务对象间的关联变少。如何设计聚合见下面实践部分。</p><p>围绕聚合的操作引入工厂和资源库。工厂负责复杂聚合的创建，资源库负责聚合的加载、添加、修改、删除。聚合内的实体状态变更通过领域事件来推动。</p><p>引入应用服务，对领域逻辑编排、封装。供上层接口层调用。一个应用服务就是一次编排，一次编排就是一个用户用例。</p><h3 id="DDD领域概念详细解释和举例"><a href="#DDD领域概念详细解释和举例" class="headerlink" title="DDD领域概念详细解释和举例"></a>DDD领域概念详细解释和举例</h3><table><thead><tr><th>名称</th><th>定义</th><th>举例</th></tr></thead><tbody><tr><td>实体</td><td>实体一般对应业务对象，具有业务属性和业务行为</td><td>线索是个实体，线索的状态会随着跟进活动的推进随时变化，需要根据唯一标识来追踪变化</td></tr><tr><td>值对象</td><td>值对象主要是属性集合，对实体的状态、特征进行业务语义的描述</td><td>线索上的联系方式信息是值对象，包含联系方式类型和联系方式内容，不需要唯一标识去追踪联系方式的变化过程，整体替换新联系方式</td></tr><tr><td>聚合</td><td>聚合是由业务和逻辑紧密关联的实体和值对象组成的，是数据修改和持久化的基本单元</td><td>线索是个聚合，线索实体是该聚合的根实体，状态信息、联系方式信息等是附属聚合的值对象</td></tr><tr><td>资源库</td><td>资源库是对资源访问的抽象。不局限于数据库、文件、网络存储。接口需要不依赖于具体的数据存储和ORM实现框架</td><td>线索这个聚合的访问通过线索资源库提供，资源库的实现因技术选型不同而不同，可以是数据库、文件等</td></tr><tr><td>领域事件</td><td>表示领域中所发生的重要事件，事件发生后通常会导致进一步的业务操作，或者在系统其他地方引起反应</td><td>线索创建后会产生线索已创建领域事件，后续的线索分配服务、打标签服务可以监听该事件启动相应操作</td></tr><tr><td>领域服务</td><td>领域服务没有任何属性或数据，只是一个领域行为或动作，不适合放在任何聚合内的逻辑行为</td><td>线索的查重行为属于领域服务，单个线索自身没法完成查重行为</td></tr><tr><td>应用服务</td><td>应用服务对应到一个具体业务场景，通过编排聚合、资源库、领域事件、外部适配接口、领域服务来完成</td><td>线索创建这个场景对应线索创建应用服务，该服务会编排线索查重、线索聚合创建、线索资源库创建、线索已创建领域事件发送等</td></tr></tbody></table><h2 id="DDD如何开展？"><a href="#DDD如何开展？" class="headerlink" title="DDD如何开展？"></a>DDD如何开展？</h2><p>DDD包含战略设计、战术设计、技术实现三个部分。战略设计侧重于高层次、宏观上去划分限界上下文，而战术设计则关注使用建模工具来细化上下文，通过领域模型来表达业务。技术实现主要通过分层架构来隔离领域模型代表的业务逻辑和技术细节。一个整体过程大致包括：宏观划分各领域 → 领域内划分限界上下文，定义上下文之间的关系 → 上下文内分析业务，识别领域概念，定义合适的领域概念 → 通过分层架构实现编码，并验证领域模型的合理性，必要时重新回到前面步骤重构领域模型。</p><h3 id="DDD过程"><a href="#DDD过程" class="headerlink" title="DDD过程"></a>DDD过程</h3><p>领域驱动设计是一套面对复杂业务进行建模和设计的方法论和实践，建立了以领域为核心驱动力的设计体系。领域驱动设计分为 2 个主要过程：战略设计、战术设计 。</p><p><img src="domain.png" alt="img"></p><h3 id="战略设计"><a href="#战略设计" class="headerlink" title="战略设计"></a>战略设计</h3><p>战略设计是团队领导层或业务负责人关心的，该步骤需要针对产品愿景、业务要解决的问题域，规划核心域、通用域、支撑域，做合适的资源投入。</p><h4 id="什么是领域和限界上下文？"><a href="#什么是领域和限界上下文？" class="headerlink" title="什么是领域和限界上下文？"></a>什么是领域和限界上下文？</h4><p>领域代表现实世界的特定问题和解决方案的集合，比如销售领域、营销领域。DDD里的限界上下文（Bouded Context）是对领域的软件实现，比如线索系统、商机系统就是销售领域内的限界上下文。限界上下文定义了解决方案的明显边界，边界里的每一个领域概念，包括领域概念内的属性和行为都有特殊含义。出了限界上下文这个边界这层含义就不复存在。</p><h4 id="如何划分限界上下文？"><a href="#如何划分限界上下文？" class="headerlink" title="如何划分限界上下文？"></a>如何划分限界上下文？</h4><ul><li>根据相关性做归类。一般是优先考虑功能相关性而不是语义相关性，比如创建订单和支付订单都是订单语义，但功能相差比较大，应该划分为两个限界上下文。</li></ul><ul><li>根据团队粒度做裁剪、根据技术特点做裁剪。一些通用的技术功能应该尽可能归拢到一个限界上下文，比如每个业务限界上下文都有监控，但监控能力应该归拢到监控限界上下文。</li></ul><h4 id="BC与微服务什么关系？"><a href="#BC与微服务什么关系？" class="headerlink" title="BC与微服务什么关系？"></a>BC与微服务什么关系？</h4><p>微服务是包含高度相关功能的一个开发部署单元，有自己的技术自治性包括技术选型、弹性扩缩容、发布上线频率等，有自己的业务演变自治性。BC是根据领域逻辑的内聚情况形成的一个整体。一个微服务可以包含一个或多个BC，到底包含几个？需要根据团队大小、BC复杂度和技术特性来定。</p><h3 id="战术设计"><a href="#战术设计" class="headerlink" title="战术设计"></a>战术设计</h3><p>DDD设计思想里领域建模是最核心的一步，该阶段主要目标是提炼和定义出领域模型和之间的关系。</p><h4 id="领域建模"><a href="#领域建模" class="headerlink" title="领域建模"></a>领域建模</h4><p>建模就是设计的过程，建模的过程就是梳理、走查业务逻辑，拆解为要解决的问题和涉及的业务场景、业务流程、业务概念，在这个过程中形成对应的领域概念。</p><p>如果团队对于业务比较陌生适合采用事件风暴方法进行梳理；如果团队对业务比较熟悉，如果业务流程相对简单，则可以采用四色建模法进行业务梳理。采用这些分析业务的方法可以保证产研团队对业务逻辑的理解在一个水平上。</p><h4 id="业务逻辑的显性表达"><a href="#业务逻辑的显性表达" class="headerlink" title="业务逻辑的显性表达"></a>业务逻辑的显性表达</h4><p>在完成了实体和值对象的设计后，有的时候会发现有些概念其实在领域上是存在的，但设计和代码里没有Class来体现，可能仅仅是一个基本类型参数加上散落的对该参数的判断检验逻辑，这个时候还需要思考应该把这个概念显性化，定义专门的Class并包含相应逻辑，入出参以相应Class为类型。但凡业务代码逻辑包含了一堆if-else，这时候需要考虑尽可能给这段逻辑建模成一个领域概念。</p><p>比如CRM系统里判断一条线索是否为推广线索需要看线索的渠道属性是否来自推广平台，那么比较好的方式是这段逻辑用”推广线索”这个概念来显性表达，而不是淹没在代码里不容易理解和维护。</p><h4 id="统一语言"><a href="#统一语言" class="headerlink" title="统一语言"></a>统一语言</h4><p>为了解决业务逻辑衔接的问题引入了统一语言。每个业务名词的含义具有明确的定义，产品和研发都统一认识。没有统一语言的沟通严重缺乏效率。比如CRM线索的概念，没有统一语言的时候每个人的理解不一样，有的人理解为有过咨询记录的访客是线索，有的人理解为留下过联系方式的访客是线索，有的人理解为有购买意愿的访客是线索等等。</p><p>有了统一语言描述，每个概念就有了明确定义，可以节省非常大的沟通交流成本。并且这个概念也同样应用在相关的需求文档、设计文档、代码编写中。每个概念从引入到日常交流，从需求文档到代码实现都有了一致的表达，代码实现和需求描述的真实度高，可理解性和可维护性就变好了。</p><h3 id="技术实现"><a href="#技术实现" class="headerlink" title="技术实现"></a>技术实现</h3><h4 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h4><p>为了让代码实现围绕领域模型开展，尽量降低业务代码和纯技术选型代码的耦合，DDD引入了分层架构。确保了最核心的领域层不依赖其他层，反过来让领域之外的代码依赖领域代码，降低了技术升级带来的影响。</p><h4 id="DDD框架"><a href="#DDD框架" class="headerlink" title="DDD框架"></a>DDD框架</h4><p>框架内定义不同领域概念需要实现的接口，比如实现了聚合根接口的实体类就成为了聚合的根实体。定义了异常管理规范，不同的分层应该抛出什么类型的异常。定义了数据访问的资源库接口等等。</p><h4 id="领域事件"><a href="#领域事件" class="headerlink" title="领域事件"></a>领域事件</h4><p>领域事件是对领域内发生的活动进行的建模，即聚合内的实体状态变化的一个载体。DDD提倡限界上下文间尽量解耦，尽可能使用发布订阅领域事件的协作模式进行上下游解耦。</p><h2 id="DDD-vs-数据模型驱动"><a href="#DDD-vs-数据模型驱动" class="headerlink" title="DDD vs 数据模型驱动"></a>DDD vs 数据模型驱动</h2><p>传统的业务开发模式里，研发受到关系型数据库设计范式、ER图等影响深远，在做软件详细设计过程中往往先想到如何设计对应的表结构，由此倒推出业务逻辑代码该如何组织。这就是典型的数据模型驱动设计，或者叫面向数据表设计编程。数据模型设计关注的是数据存储，数据尽量不要冗余，控制表数量不膨胀，更多考虑数据的扩展性，比如新加一个字段尽量不要在几张表都加，能用一个字段表达就不用两个字段。</p><p>这样的思维跟DDD是相反的，DDD优先考虑领域概念的业务语义表达，具有独立业务概念的东西会尽量抽象成一个内聚的领域对象。领域对象不仅仅有属性，还有该有的行为。</p><p>因此，基于数据模型驱动的设计结果往往是：</p><ul><li>业务逻辑代码非常过程式，领域实体只包含一堆属性，只是数据表的映射，没有业务行为。也就是常说的只有getter和setter方法的贫血对象。非常缺乏领域概念的表达，业务逻辑散乱。比如值对象的设计在DDD里是一个类，在数据模型设计里往往是其他类的几个属性。</li></ul><ul><li>聚合是DDD最小的复用单元，粒度更粗。数据模型设计里领域实体的数量跟表数量一一对应，数据表是最小的复用单元，粒度太细。导致业务逻辑对应的实现类需要访问很多的领域实体，实现类之间的调用关系发散而错综复杂。下图是贫血模型和DDD富血模型的区别。</li></ul><p><img src="2021052622.webp.jpg" alt="img"></p><ul><li>数据表的关系表达很受限，具有主从关系的表之间很难看出主从。在DDD里聚合和聚合内的实体、值对象之间的关系在代码层面有显示的表达。</li></ul><p>当然，DDD思想里不是说不用考虑数据表设计，而是要优先考虑领域概念的识别和建模。表设计需要服务于领域模型的设计，是技术实现的细节。因此明白DDD和数据模型驱动设计的区别反过来能更好地理解DDD。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;DDD是啥？&quot;&gt;&lt;a href=&quot;#DDD是啥？&quot; class=&quot;headerlink&quot; title=&quot;DDD是啥？&quot;&gt;&lt;/a&gt;DDD是啥？&lt;/h2&gt;&lt;p&gt;DDD是一种围绕领域建模来解决复杂业务交付的设计思想。读者不妨自问几个问题，什么是复杂？什么是领域建模？&lt;/</summary>
+      
+    
+    
+    
+    
+    <category term="DDD" scheme="https://hexo.weijie.live/tags/DDD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>接口测试</title>
+    <link href="https://hexo.weijie.live/2021/07/19/api-test-design/"/>
+    <id>https://hexo.weijie.live/2021/07/19/api-test-design/</id>
+    <published>2021-07-19T16:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.409Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="接口测试断言设计思路"><a href="#接口测试断言设计思路" class="headerlink" title="接口测试断言设计思路"></a>接口测试断言设计思路</h1><h2 id="1）响应码"><a href="#1）响应码" class="headerlink" title="1）响应码"></a>1）响应码</h2><p>检查响应码是否符合预期，用来判断测试用例是否执行成功（针对http接口）</p><h2 id="2）关键字"><a href="#2）关键字" class="headerlink" title="2）关键字"></a>2）关键字</h2><p>验证关键字是否符合预期，用来判断测试用例是否执行成功</p><h2 id="3）正则匹配"><a href="#3）正则匹配" class="headerlink" title="3）正则匹配"></a>3）正则匹配</h2><p>当一个接口返回的内容较多，并且有一定规律时，可通过正则表达式来校验接口</p><p>返回的信息来判定测试用例是否执行成功</p><h2 id="4）数据库匹配核对"><a href="#4）数据库匹配核对" class="headerlink" title="4）数据库匹配核对"></a>4）数据库匹配核对</h2><p>比如对查询一个接口返回的数据进行验证时，可通过编写sql语句查询结果，</p><p>然后将sql语句执行后数据库返回的结果与接口返回的结果进行核对，以此来判定测试用例是否执行成功</p><h2 id="5）通过相关接口进行辅助验证"><a href="#5）通过相关接口进行辅助验证" class="headerlink" title="5）通过相关接口进行辅助验证"></a>5）通过相关接口进行辅助验证</h2><p>比如，当测试一个删除接口时，删除一条记录后，想验证这条记录真的被删除，可调用查询接口，若删除的记录没被查询到，则说明删除这条记录成功</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;接口测试断言设计思路&quot;&gt;&lt;a href=&quot;#接口测试断言设计思路&quot; class=&quot;headerlink&quot; title=&quot;接口测试断言设计思路&quot;&gt;&lt;/a&gt;接口测试断言设计思路&lt;/h1&gt;&lt;h2 id=&quot;1）响应码&quot;&gt;&lt;a href=&quot;#1）响应码&quot; class=&quot;he</summary>
+      
+    
+    
+    
+    
+    <category term="测试" scheme="https://hexo.weijie.live/tags/%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅谈SPI</title>
+    <link href="https://hexo.weijie.live/2021/04/07/%E6%B5%85%E8%B0%88SPI/"/>
+    <id>https://hexo.weijie.live/2021/04/07/%E6%B5%85%E8%B0%88SPI/</id>
+    <published>2021-04-07T16:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.413Z</updated>
+    
+    <content type="html"><![CDATA[<p>在java中使用SPI创建可扩展的应用程序</p><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>什么是可扩展的应用程序呢？可扩展的意思是不需要修改原始代码，就可以扩展应用程序的功能。我们将应用程序做成插件或者模块。</p><p>这样可以在不修改原应用的基础上，对系统功能进行升级或者定制化。</p><p>本文将会向大家介绍如何通过java中的SPI机制实现这种可扩展的应用程序。</p><h1 id="SPI简介"><a href="#SPI简介" class="headerlink" title="SPI简介"></a>SPI简介</h1><p>SPI的全称是Java Service Provider Interface。是java提供的一种服务发现的机制。</p><p>通过遵循相应的规则编写应用程序之后，就可以使用ServiceLoader来加载相应的服务了。</p><p>SPI的实现主要分为4个部分：</p><ol><li>Service Provider Interface: SPI是一个interface或者是抽象类，其中定义了我们需要扩展实现的功能。</li><li>Service Providers：这是SPI的具体实现，提供了具体的实现功能</li><li>SPI Configuration File：SPI的配置文件，通过在配置文件我们来配置相关的SPI发现信息。</li><li>ServiceLoader: ServiceLoader是用来加载和发现服务的java类，并提供了很多有用的方法。</li></ol><h1 id="SPI的普通java实现"><a href="#SPI的普通java实现" class="headerlink" title="SPI的普通java实现"></a>SPI的普通java实现</h1><p>讲完SPI的定义，大家可能还是不清楚SPI到底是做什么的，又该怎么使用它。</p><p>不用急，我们下面通过一个例子来说明。</p><p>首先创建一个module:SPI-service,里面主要定义了一个ModuleService接口：</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>ModuleService &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="image-20210408155624652.png" alt="image-20210408155624652"></p><p>然后再分别创建两个module，作为ModuleService的实现：</p><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ModuleServiceA</span> <span class="keyword"><span class="keyword">implements</span> <span class="type">ModuleService</span></span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> ModuleService getModuleService()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">ModuleServiceA</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ModuleServiceB</span> <span class="keyword"><span class="keyword">implements</span> <span class="type">ModuleService</span></span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> ModuleService getModuleService()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">ModuleServiceB</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>接着分别在两个module中创建META-INF/services文件夹，并且在里面创建两个以 Service Provider Interface限定名为名字的文件，这里文件名是：com.flydean.base.service.ModuleService，文件里面存放的是SPI的具体实现类：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">com</span><span class="selector-class">.flydean</span><span class="selector-class">.base</span><span class="selector-class">.servicea</span><span class="selector-class">.ModuleServiceA</span></span><br><span class="line"><span class="selector-tag">com</span><span class="selector-class">.flydean</span><span class="selector-class">.base</span><span class="selector-class">.serviceb</span><span class="selector-class">.ModuleServiceB</span></span><br></pre></td></tr></table></figure><p><img src="image-20210408155924598.png" alt="image-20210408155924598"></p><p><img src="image-20210408160006505.png" alt="image-20210408160006505"></p><p>最后，我们需要创建一个使用SPI的类：</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ModuleController</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;ModuleService&gt; moduleServices = ServiceLoader</span><br><span class="line">                .load(ModuleService.class).stream()</span><br><span class="line">                .<span class="built_in">map</span>(ServiceLoader.Provider::<span class="built_in">get</span>)</span><br><span class="line">                .collect(toList());</span><br><span class="line">        <span class="built_in">log</span>.info(<span class="string">"&#123;&#125;"</span>, moduleServices);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="image-20210408160103807.png" alt="image-20210408160103807"></p><p>为了更好的展示扩展应用的实际使用，我们分别创建4个模块。在实际应用中，只需要将这些jar包加入应用程序的classpath即可。</p><p>运行看下输出结果：</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[com<span class="selector-class">.flydean</span><span class="selector-class">.base</span><span class="selector-class">.servicea</span>.ModuleServiceA@<span class="number">16</span>f65612, </span><br><span class="line">com<span class="selector-class">.flydean</span><span class="selector-class">.base</span><span class="selector-class">.serviceb</span>.ModuleServiceB@<span class="number">311</span>d617d]</span><br></pre></td></tr></table></figure><p>从结果看到，我们获得了两个ModuleService。证明系统扩展成功。</p><h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>1、配置文件为什么要放在META-INF/services下面？<br>我们可以在java.util.ServiceLoader中找到以下代码。</p><pre><code>private static final String PREFIX = &quot;META-INF/services/&quot;;</code></pre><p>2、ServiceLoader读取实现类是什么时候实例化的？<br>ServiceLoader.LazyIterator.nextService中实例化，即load的结果迭代时才会被实例化。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;在java中使用SPI创建可扩展的应用程序&lt;/p&gt;
+&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;什么是可扩展的应用程序呢？可扩展的意思是不需要修改原始代码，就可以扩展应用程序的功</summary>
+      
+    
+    
+    
+    
+    <category term="grpc" scheme="https://hexo.weijie.live/tags/grpc/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>health-checking</title>
+    <link href="https://hexo.weijie.live/2021/04/06/health-checking/"/>
+    <id>https://hexo.weijie.live/2021/04/06/health-checking/</id>
+    <published>2021-04-06T16:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.409Z</updated>
+    
+    <content type="html"><![CDATA[<p>健康检查用于调查服务器是否能够处理 rpcs。客户端对服务器的健康检查可以从点到点或通过某些控制系统进行。服务器可能会选择回复”不健康”，因为它尚未准备好接收请求、正在关闭或其他原因。如果在一段时间内未收到响应，或者回复中显示不健康，客户端可以采取相应行动。</p><p>GRPC 服务用作简单客户端对服务器场景和其他控制系统（如负载平衡）的健康检查机制。作为一个高水平的服务提供了一些好处。首先，因为它是GRPC服务本身，做健康检查是在同一格式的正常rpc。其次，它具有丰富的语义，如每服务健康状况。第三，作为GRPC服务，它可以重复使用所有现有的计费、配额基础设施等，因此服务器可以完全控制健康检查服务的访问。</p><h2 id="服务定义"><a href="#服务定义" class="headerlink" title="服务定义"></a>服务定义</h2><p>服务器应导出以下原件中定义的服务：</p><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">syntax</span> = <span class="string">"proto3";</span></span><br><span class="line"></span><br><span class="line"><span class="attr">package</span> <span class="string">grpc.health.v1;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">message</span> <span class="string">HealthCheckRequest &#123;</span></span><br><span class="line">  <span class="attr">string</span> <span class="string">service = 1;</span></span><br><span class="line"><span class="attr">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">message</span> <span class="string">HealthCheckResponse &#123;</span></span><br><span class="line">  <span class="attr">enum</span> <span class="string">ServingStatus &#123;</span></span><br><span class="line">    <span class="attr">UNKNOWN</span> = <span class="string">0;</span></span><br><span class="line">    <span class="attr">SERVING</span> = <span class="string">1;</span></span><br><span class="line">    <span class="attr">NOT_SERVING</span> = <span class="string">2;</span></span><br><span class="line">    <span class="attr">SERVICE_UNKNOWN</span> = <span class="string">3;  // Used only by the Watch method.</span></span><br><span class="line">  <span class="attr">&#125;</span></span><br><span class="line">  <span class="attr">ServingStatus</span> <span class="string">status = 1;</span></span><br><span class="line"><span class="attr">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">service</span> <span class="string">Health &#123;</span></span><br><span class="line">  <span class="attr">rpc</span> <span class="string">Check(HealthCheckRequest) returns (HealthCheckResponse);</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">rpc</span> <span class="string">Watch(HealthCheckRequest) returns (stream HealthCheckResponse);</span></span><br><span class="line"><span class="attr">&#125;</span></span><br></pre></td></tr></table></figure><p>客户端可以通过调用该方法查询服务器的健康状况，并且应在 rpc 上设置截止日期。客户端可以可选地设置它想要查询的健康状况的服务名称。建议的服务名称格式是<code>package_names.ServiceName</code>,例如<code>grpc.health.v1.Health</code></p><p>服务器应手动注册所有服务并设置单个状态，包括空服务名称及其状态。对于收到的每一个请求，如果服务名称可以在注册表中找到，则必须用状态<code>OK</code>发送回复，并且状态字段应设置为或相应地设置<code>SERVING</code> or <code>NOT_SERVING</code>。如果未注册服务名称，服务器将返回 GRPC 状态<code>NOT_FOUND</code></p><p>服务器应使用空字符串作为服务器整体健康状况的关键，以便对特定服务不感兴趣的客户端可以使用空请求查询服务器的状态。服务器只需对服务名称进行精确匹配，而无需支持任何类型的通配符匹配。但是，服务所有者可以自由实施客户端和服务器都同意的更复杂的匹配语义。</p><p>如果 rpc 在一段时间后未完成，则客户端可以声明服务器不健康。客户端应该能够处理服务器没有健康服务的情况。</p><p>客户端可以调用该方法执行流式健康检查。服务器将立即发回指示当前服务状态的消息。然后，当服务状态发生变化时，它将发送新消息。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;健康检查用于调查服务器是否能够处理 rpcs。客户端对服务器的健康检查可以从点到点或通过某些控制系统进行。服务器可能会选择回复”不健康”，因为它尚未准备好接收请求、正在关闭或其他原因。如果在一段时间内未收到响应，或者回复中显示不健康，客户端可以采取相应行动。&lt;/p&gt;
+&lt;p&gt;</summary>
+      
+    
+    
+    
+    
+    <category term="grpc" scheme="https://hexo.weijie.live/tags/grpc/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>awesome</title>
+    <link href="https://hexo.weijie.live/2021/03/28/awesome/"/>
+    <id>https://hexo.weijie.live/2021/03/28/awesome/</id>
+    <published>2021-03-28T16:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.409Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>A curated list of awesome things</p></blockquote><ul><li><a href="#resources">Resources</a><ul><li><a href="#java">java</a></li><li><a href="#golang">golang</a></li></ul></li></ul><h2 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h2><h3 id="java"><a href="#java" class="headerlink" title="java"></a>java</h3><ul><li><a href="https://www.java.com/zh-CN/" target="_blank" rel="noopener">官网</a></li><li><a href="https://www.java.com/zh-CN/download/" target="_blank" rel="noopener">jdk下载</a></li><li><a href="https://spring.io/projects" target="_blank" rel="noopener">spring</a></li></ul><h3 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h3><ul><li><a href="https://golang.org/" target="_blank" rel="noopener">官网</a> - golang官方网站</li><li><a href="https://go-zh.org" target="_blank" rel="noopener">中文网站</a> - golang中文网站</li><li><a href="https://github.com/golang/go" target="_blank" rel="noopener">github</a></li><li><a href="https://goproxy.cn/" target="_blank" rel="noopener">代理</a> - cn代理</li><li><a href="https://tour.go-zh.org/" target="_blank" rel="noopener">中文指南</a></li><li><a href="https://golang.org/doc/effective_go" target="_blank" rel="noopener">编程习惯</a></li><li><a href="https://www.jetbrains.com/go/" target="_blank" rel="noopener">开发工具</a></li><li><a href="https://golang.org/dl/" target="_blank" rel="noopener">安装包下载</a> - 或<a href="https://golang.google.cn/dl/" target="_blank" rel="noopener">https://golang.google.cn/dl/</a></li><li><a href="https://github.com/unknwon/the-way-to-go_ZH_CN" target="_blank" rel="noopener">the-way-to-go</a> - 在线阅读</li><li><a href="https://gobyexample.com/" target="_blank" rel="noopener">Go by Example</a></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;A curated list of awesome things&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#resources&quot;&gt;Resources&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#java&quot;&gt;java&lt;</summary>
+      
+    
+    
+    
+    
+    <category term="awesome" scheme="https://hexo.weijie.live/tags/awesome/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>分布式文件系统FastDFS</title>
+    <link href="https://hexo.weijie.live/2021/03/25/%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9FFastDFS/"/>
+    <id>https://hexo.weijie.live/2021/03/25/%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9FFastDFS/</id>
+    <published>2021-03-25T04:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.413Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>FastDFS是一个开源的分布式文件系统，对文件进行管理，功能包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了大容量存储和负载均衡的问题。特别适合以文件为载体的在线服务，如相册网站、视频网站等等。</p><p>FastDFS服务端有两个角色：跟踪器（tracker）和存储节点（storage）。跟踪器主要做调度工作，在访问上起负载均衡的作用。</p><p>存储节点存储文件，完成文件管理的所有功能：存储、同步和提供存取接口，FastDFS同时对文件的meta data进行管理。所谓文件的meta data就是文件的相关属性，以键值对（key value pair）方式表示，如：width=1024，其中的key为width，value为1024。文件meta data是文件属性列表，可以包含多个键值对。</p><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul><li><p>作者：YuQing</p></li><li><p>github：<a href="https://github.com/happyfish100/fastdfs/releases" target="_blank" rel="noopener">https://github.com/happyfish100/fastdfs/releases</a></p></li><li><p>主要场景：</p><ul><li>小图片</li><li>音频、小视频</li><li>其他类型小文件</li></ul></li><li><p>更加复杂的文件存储场景可以选择：</p><p>Ceph</p><ul><li>支持对象存储、块存储和文件存储</li><li>高性能、高可靠性和高扩展</li></ul></li></ul><h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>FastDFS系统结构如下图所示：</p><p><img src="http://static.oschina.net/uploads/img/201204/20230218_pNXn.jpg" alt="img"></p><ul><li>跟踪器和存储节点都可以由一台多台服务器构成。跟踪器和存储节点中的服务器均可以随时增加或下线而不会影响线上服务。其中跟踪器中的所有服务器都是对等的，可以根据服务器的压力情况随时增加或减少。</li></ul><ul><li>为了支持大容量，存储节点（服务器）采用了分卷（或分组）的组织方式。存储系统由一个或多个卷组成，卷与卷之间的文件是相互独立的，所有卷 的文件容量累加就是整个存储系统中的文件容量。一个卷可以由一台或多台存储服务器组成，一个卷下的存储服务器中的文件都是相同的，卷中的多台存储服务器起 到了冗余备份和负载均衡的作用。</li></ul><ul><li>在卷中增加服务器时，同步已有的文件由系统自动完成，同步完成后，系统自动将新增服务器切换到线上提供服务。</li></ul><ul><li>当存储空间不足或即将耗尽时，可以动态添加卷。只需要增加一台或多台服务器，并将它们配置为一个新的卷，这样就扩大了存储系统的容量。<br>FastDFS中的文件标识分为两个部分：卷名和文件名，二者缺一不可。</li></ul><p><img src="http://static.oschina.net/uploads/img/201204/20230218_6wXI.jpg" alt="img"></p><h3 id="上传文件交互过程："><a href="#上传文件交互过程：" class="headerlink" title="上传文件交互过程："></a>上传文件交互过程：</h3><ol><li>client询问tracker上传到的storage，不需要附加参数；</li><li>tracker返回一台可用的storage；</li><li>client直接和storage通讯完成文件上传。 </li></ol><p><img src="http://static.oschina.net/uploads/img/201204/20230218_ieZW.jpg" alt="img"></p><h3 id="下载文件交互过程："><a href="#下载文件交互过程：" class="headerlink" title="下载文件交互过程："></a>下载文件交互过程：</h3><ol><li>client询问tracker下载文件的storage，参数为文件标识（卷名和文件名）；</li><li>tracker返回一台可用的storage；</li><li>client直接和storage通讯完成文件下载。</li></ol><p>需要说明的是，client为使用FastDFS服务的调用方，client也应该是一台服务器，它对tracker和storage的调用均为服务器间的调用。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/judasn/Linux-Tutorial/blob/master/markdown-file/FastDFS-Install-And-Settings.md" target="_blank" rel="noopener">部署</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;FastDFS是一个开源的分布式文件系统，对文件进行管理，功能包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了大容量存储和</summary>
+      
+    
+    
+    
+    
+    <category term="FastDFS" scheme="https://hexo.weijie.live/tags/FastDFS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot validator优雅的校验参数</title>
+    <link href="https://hexo.weijie.live/2021/03/23/springboot-validator/"/>
+    <id>https://hexo.weijie.live/2021/03/23/springboot-validator/</id>
+    <published>2021-03-23T16:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.413Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>web开发过程中，绕不开要做参数验证，例如简单的必填验证，正则验证，以及一些复杂的组合验证。如果参数少实现起来还比较容易，但是如果参数较多的话，又没有使用一些验证框架，就会出现大量的if else代码，并且会出现大量的重复代码，那如何优雅的校验参数呢，让我们看看spring是怎么实现的。</p><h2 id="什么是Validator"><a href="#什么是Validator" class="headerlink" title="什么是Validator"></a>什么是Validator</h2><p>Bean Validation是Java定义的一套基于注解的数据校验规范，目前已经从JSR 303的1.0版本升级到JSR 349的1.1版本，再到JSR 380的2.0版本（2.0完成于2017.08），已经经历了三个版本 。</p><blockquote><p>如果已经引用了spring-boot-starter-web,就不要需要引用spring-boot-starter-validation了,本例就不再引用</p></blockquote><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hibernate.validator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hibernate-validator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.validation<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>validation-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure><blockquote><p>但是我们在集成的时候发现没有对应的包，springboot版本在2.3，这就需要我们收到添加aop的支持</p></blockquote><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 引入validation支持 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-validation<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure><h2 id="注解介绍"><a href="#注解介绍" class="headerlink" title="注解介绍"></a>注解介绍</h2><h3 id="validator内置注解"><a href="#validator内置注解" class="headerlink" title="validator内置注解"></a>validator内置注解</h3><table><thead><tr><th><strong>注解</strong></th><th><strong>详细信息</strong></th></tr></thead><tbody><tr><td><code>@Null</code></td><td>被注释的元素必须为 <code>null</code></td></tr><tr><td><code>@NotNull</code></td><td>被注释的元素必须不为 <code>null</code></td></tr><tr><td><code>@AssertTrue</code></td><td>被注释的元素必须为 <code>true</code></td></tr><tr><td><code>@AssertFalse</code></td><td>被注释的元素必须为 <code>false</code></td></tr><tr><td><code>@Min(value)</code></td><td>被注释的元素必须是一个数字，其值必须大于等于指定的最小值</td></tr><tr><td><code>@Max(value)</code></td><td>被注释的元素必须是一个数字，其值必须小于等于指定的最大值</td></tr><tr><td><code>@DecimalMin(value)</code></td><td>被注释的元素必须是一个数字，其值必须大于等于指定的最小值</td></tr><tr><td><code>@DecimalMax(value)</code></td><td>被注释的元素必须是一个数字，其值必须小于等于指定的最大值</td></tr><tr><td><code>@Size(max, min)</code></td><td>被注释的元素的大小必须在指定的范围内</td></tr><tr><td><code>@Digits (integer, fraction)</code></td><td>被注释的元素必须是一个数字，其值必须在可接受的范围内</td></tr><tr><td><code>@Past</code></td><td>被注释的元素必须是一个过去的日期</td></tr><tr><td><code>@Future</code></td><td>被注释的元素必须是一个将来的日期</td></tr><tr><td><code>@Pattern(value)</code></td><td>被注释的元素必须符合指定的正则表达式</td></tr></tbody></table><h3 id="Hibernate-Validator-附加的-constraint"><a href="#Hibernate-Validator-附加的-constraint" class="headerlink" title="Hibernate Validator 附加的 constraint"></a>Hibernate Validator 附加的 constraint</h3><table><thead><tr><th><strong>注解</strong></th><th><strong>详细信息</strong></th></tr></thead><tbody><tr><td><code>@Email</code></td><td>被注释的元素必须是电子邮箱地址</td></tr><tr><td><code>@Length</code></td><td>被注释的字符串的大小必须在指定的范围内</td></tr><tr><td><code>@NotEmpty</code></td><td>被注释的字符串的必须非空</td></tr><tr><td><code>@Range</code></td><td>被注释的元素必须在合适的范围内</td></tr><tr><td><code>@NotBlank</code></td><td>验证字符串非null，且长度必须大于0</td></tr></tbody></table><p><strong>注意</strong>：</p><ul><li><p>@NotNull 适用于任何类型被注解的元素必须不能与NULL</p></li><li><p>@NotEmpty 适用于String Map或者数组不能为Null且长度必须大于0</p></li><li><p>@NotBlank 只能用于String上面 不能为null,调用trim()后，长度必须大于0</p></li></ul><h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><p>对于简单的参数检验，可以直接在方法或类上加上@Valid并配合validator注解使用，复杂对象的检验则注解在对象属性上加validator注解即可，需要注意的是对象嵌套可能会导致注解失效，需要要嵌套的对象上加上@Valid注解</p><h2 id="自定义异常处理"><a href="#自定义异常处理" class="headerlink" title="自定义异常处理"></a>自定义异常处理</h2><p>创建一个<code>GlobalExceptionHandler</code>类，在类上方添加<code>@RestControllerAdvice</code>注解然后添加以下代码：</p><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 单个参数验证</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">@<span class="constructor">ExceptionHandler(ValidationException.<span class="params">class</span>)</span></span><br><span class="line">public Response handle<span class="constructor">MethodArgumentNotValidException(ValidationException <span class="params">e</span>)</span> &#123;</span><br><span class="line">    log.error(e.get<span class="constructor">Message()</span>, e);</span><br><span class="line">    return <span class="keyword">new</span> <span class="constructor">Response(ExceptionMsg.ParamError.<span class="params">getCode</span>()</span>, e.get<span class="constructor">Message()</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 对象验证</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">@<span class="constructor">ExceptionHandler(MethodArgumentNotValidException.<span class="params">class</span>)</span></span><br><span class="line">public Response handle<span class="constructor">MethodArgumentNotValidException(MethodArgumentNotValidException <span class="params">e</span>)</span> &#123;</span><br><span class="line">    log.error(e.get<span class="constructor">Message()</span>, e);</span><br><span class="line">    return <span class="keyword">new</span> <span class="constructor">Response(ExceptionMsg.ParamError.<span class="params">getCode</span>()</span>,e.get<span class="constructor">BindingResult()</span>.get<span class="constructor">FieldError()</span>.get<span class="constructor">DefaultMessage()</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.51cto.com/1197822/2467086" target="_blank" rel="noopener">SpringBoot入门二十二,使用Validation进行参数校验</a><br><a href="https://lqcoder.com/p/4cd8a59d.html" target="_blank" rel="noopener">SpringBoot如何优雅的校验参数</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;web开发过程中，绕不开要做参数验证，例如简单的必填验证，正则验证，以及一些复杂的组合验证。如果参数少实现起来还比较容易，但是如果参数较多的</summary>
+      
+    
+    
+    
+    
+    <category term="springboot" scheme="https://hexo.weijie.live/tags/springboot/"/>
+    
+    <category term="validator" scheme="https://hexo.weijie.live/tags/validator/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hexo主题同步</title>
+    <link href="https://hexo.weijie.live/2019/12/26/hexo%E4%B8%BB%E9%A2%98%E5%90%8C%E6%AD%A5/"/>
+    <id>https://hexo.weijie.live/2019/12/26/hexo%E4%B8%BB%E9%A2%98%E5%90%8C%E6%AD%A5/</id>
+    <published>2019-12-26T04:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.413Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="绑定子项目"><a href="#绑定子项目" class="headerlink" title="绑定子项目"></a>绑定子项目</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote <span class="built_in">add</span> -<span class="keyword">f</span> <span class="keyword">next</span> git@github.<span class="keyword">com</span>:theme-<span class="keyword">next</span>/hexo-theme-<span class="keyword">next</span></span><br><span class="line">git subtree <span class="built_in">add</span> --prefix=themes/<span class="keyword">next</span> <span class="keyword">next</span> master --squash</span><br></pre></td></tr></table></figure><h2 id="更新子项目"><a href="#更新子项目" class="headerlink" title="更新子项目"></a>更新子项目</h2><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch next <span class="literal">master</span></span><br><span class="line">git subtree pull --<span class="attr">prefix=</span>themes/next next <span class="keyword">master</span> <span class="title">--squash</span></span><br></pre></td></tr></table></figure><h2 id="从子目录push到远程仓库"><a href="#从子目录push到远程仓库" class="headerlink" title="从子目录push到远程仓库"></a>从子目录push到远程仓库</h2><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git subtree <span class="keyword">push</span> --prefix=themes/<span class="keyword">next</span> <span class="keyword">next</span> master</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;绑定子项目&quot;&gt;&lt;a href=&quot;#绑定子项目&quot; class=&quot;headerlink&quot; title=&quot;绑定子项目&quot;&gt;&lt;/a&gt;绑定子项目&lt;/h2&gt;&lt;figure class=&quot;highlight vim&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;</summary>
+      
+    
+    
+    
+    
+    <category term="hexo" scheme="https://hexo.weijie.live/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Xcode-CLT</title>
+    <link href="https://hexo.weijie.live/2019/09/21/Xcode-CLT/"/>
+    <id>https://hexo.weijie.live/2019/09/21/Xcode-CLT/</id>
+    <published>2019-09-21T16:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.409Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="https://miro.medium.com/max/2320/0*glm2SHyTdpQ-SBod" alt="image"></p><h1 id="gyp-No-Xcode-or-CLT-version"><a href="#gyp-No-Xcode-or-CLT-version" class="headerlink" title="gyp: No Xcode or CLT version"></a>gyp: No Xcode or CLT version</h1><p>Did you recently update your macOS Catalina to version 10.15.2? If you did, then you probably in the same boat too. What I immediately noticed from my terminal is this new shinny error about gyp: No Xcode or CLT version detected any time I ran either yarn install or npm install</p><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gyp: <span class="keyword">No</span> Xcode or CLT <span class="keyword">version</span> detected!</span><br><span class="line">gyp <span class="keyword">ERR</span>! configure <span class="keyword">error</span></span><br></pre></td></tr></table></figure><p>Well if you are wondering if that was my entire error? It is not even close. The line goes on and on. The funny thing is am so sure I have command line tools installed. The result of xcode-select –install should start the reinstallation process but if you get the result in the image below then you already have command line tools installed<br>xcode-select: error: command line tools are already installed, use “Software Update” to install updates<br><img src="https://miro.medium.com/max/1540/0*wIhKeLDe-Jz_1DMh" alt="image"></p><h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>Reinstall command line tools by removing the previously installed version</p><h2 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h2><p>First, get the location of the installed command line tools by running the command below:</p><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-<span class="keyword">select</span> <span class="comment">--print-path</span></span><br></pre></td></tr></table></figure><p>the result of the above command /Library/Developer/CommandLineTools</p><h2 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h2><p>Knowing the path to the currently installed command line tools from the previous step, You can now go ahead and remove it from the system. For the next set of commands, you need sudo privileges to run successfully.</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm -r -f <span class="regexp">/Library/</span>Developer<span class="regexp">/CommandLineTools</span></span><br></pre></td></tr></table></figure><p>Provide the root password to remove the command line tools. If you already have git installed, you would get a prompt to guide you through the installation of command line developer tools.</p><p>Prompt to reinstall command line developer tools<br>Click on install and follow the rest of the instructions in prompt to reinstall command line developer tools. If for some reasons, you do not get the prompt right after uninstalling your previous command line developer tools, no need to panic. Run the following command to get the prompt.<br><img src="https://miro.medium.com/max/1540/0*s8rdlR3j3xVHcl95" alt="image"></p><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-<span class="keyword">select</span> <span class="comment">--install</span></span><br></pre></td></tr></table></figure><p>Prompt after running xcode-select -install<br>Click on install and then agree to the licence to proceed with the installation. Depending on your internet speed it will take some time for the system to complete the download of the command line developer tools. The installation process should proceed immediately after a successful download. Look out for the done button as shown in the image below to confirm command line tools is successfully installed.<br>Done screen<br><img src="https://miro.medium.com/max/1540/0*UURlqdam5Xyrp7DD" alt="image"><br>With the reinstallation of the command line developer tools the gyp: No Xcode or CLT version detected error message should disappear when you run any yarn or npm commands from the command line.</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://miro.medium.com/max/2320/0*glm2SHyTdpQ-SBod&quot; alt=&quot;image&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;gyp-No-Xcode-or-CLT-version&quot;&gt;&lt;a href=&quot;#gyp-No-Xco</summary>
+      
+    
+    
+    
+    
+    <category term="工具" scheme="https://hexo.weijie.live/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>短连接生成</title>
+    <link href="https://hexo.weijie.live/2019/04/16/shorturl/"/>
+    <id>https://hexo.weijie.live/2019/04/16/shorturl/</id>
+    <published>2019-04-16T04:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.413Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="t-cn-xxx"><a href="#t-cn-xxx" class="headerlink" title="t.cn/xxx"></a>t.cn/xxx</h1><p>越来越多的短链接受到欢迎，今天分享一下t.cn</p><h2 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h2><p>t.cn属于新浪微博的一个短链接平台，同类的还有很多，比如百度dwz.cn等等，相对来说新浪的还是比较稳定。</p><h3 id="新旧版api"><a href="#新旧版api" class="headerlink" title="新旧版api"></a>新旧版api</h3><p><a href="https://api.weibo.com/2/short_url/shorten.json" target="_blank" rel="noopener">https://api.weibo.com/2/short_url/shorten.json</a> <br/><br><a href="http://api.t.sina.com.cn/short_url/shorten.json" target="_blank" rel="noopener">http://api.t.sina.com.cn/short_url/shorten.json</a></p><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Give examples</span><br><span class="line"><span class="string">xml:</span><span class="string">http:</span><span class="comment">//api.t.sina.com.cn/short_url/shorten.xml</span></span><br><span class="line"><span class="string">json:</span><span class="string">http:</span><span class="comment">//api.t.sina.com.cn/short_url/shorten.json</span></span><br></pre></td></tr></table></figure><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>apkey：3271760578（需要自己申请）</p><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Give the example</span><br><span class="line">http://api.t.sina.<span class="keyword">com</span>.<span class="keyword">cn</span>/short_url/shorten.json?<span class="keyword">source</span>=<span class="number">3271760578</span>&amp;url_long=http://blog.cellmean.<span class="keyword">com</span></span><br></pre></td></tr></table></figure><p>更多请参考：<a href="https://open.weibo.com/wiki/Short_url/shorten" target="_blank" rel="noopener">https://open.weibo.com/wiki/Short_url/shorten</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;t-cn-xxx&quot;&gt;&lt;a href=&quot;#t-cn-xxx&quot; class=&quot;headerlink&quot; title=&quot;t.cn/xxx&quot;&gt;&lt;/a&gt;t.cn/xxx&lt;/h1&gt;&lt;p&gt;越来越多的短链接受到欢迎，今天分享一下t.cn&lt;/p&gt;
+&lt;h2 id=&quot;Getting-St</summary>
+      
+    
+    
+    
+    
+    <category term="工具" scheme="https://hexo.weijie.live/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Welcome to My Blog</title>
+    <link href="https://hexo.weijie.live/2014/01/29/hello-world/"/>
+    <id>https://hexo.weijie.live/2014/01/29/hello-world/</id>
+    <published>2014-01-29T04:00:00.000Z</published>
+    <updated>2021-07-29T11:01:26.413Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.</summary>
+      
+    
+    
+    
+    
+    <category term="demo" scheme="https://hexo.weijie.live/tags/demo/"/>
+    
+  </entry>
+  
+</feed>

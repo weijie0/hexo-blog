@@ -1,0 +1,2 @@
+Sitemap: https://hexo.weijie.live/baidusitemap.xml
+Sitemap: https://hexo.weijie.live/sitemap.xml

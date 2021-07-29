@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"  content="weijie、blog、java、developer">
+    <meta name="description" content="浅谈DDD">
+    
+      <title>浅谈DDD - Weijie的博客 | Weijie&#39;s Blog</title>
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="canonical" href="https://hexo.weijie.live/2021/07/25/DDD/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Weijie's Blog" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Weijie&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://hexo.weijie.live/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#DDD" title="DDD">DDD</a>
+                        
+                    </div>
+                    <h1>浅谈DDD</h1>
+                    <h2 class="subheading">DDD是啥</h2>
+                    <span class="meta">
+                        Posted by weijie on
+                        2021-07-25
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="DDD是啥？"><a href="#DDD是啥？" class="headerlink" title="DDD是啥？"></a>DDD是啥？</h2><p>DDD是一种围绕领域建模来解决复杂业务交付的设计思想。读者不妨自问几个问题，什么是复杂？什么是领域建模？</p>
+<h3 id="什么是复杂？如何理解复杂？"><a href="#什么是复杂？如何理解复杂？" class="headerlink" title="什么是复杂？如何理解复杂？"></a>什么是复杂？如何理解复杂？</h3><p>复杂可能是现状业务就复杂，也可能是业务日渐演变成复杂。复杂来自规模在变，比如几个业务对象的逻辑不复杂，几十上百个业务对象就会变得错综复杂。复杂来自结构化不足，比如下图所示，结构化的中国结比非结构化的意大利面更有序、易于大脑理解。此外，一旦协同方多了，如何协同不同团队完成软件交付也是一种复杂。</p>
+<p><img src="what.jpg" alt="img"></p>
+<h3 id="什么是领域建模？"><a href="#什么是领域建模？" class="headerlink" title="什么是领域建模？"></a>什么是领域建模？</h3><p>领域模型跟技术毫无关系，而是为了更有结构化的拆解和表达业务逻辑。业务逻辑来自现实世界里的具体场景，涉及可视画面、操作动作和流程。要准确表达业务逻辑需要先讲清楚每个概念是什么，再建立概念之间的联系，基于这些关系再组合出更多的流程。概念、联系、流程就是领域模型。围绕领域模型去表达业务时也自然而然地把技术实现细节分离出去了。后续代码实现就是将业务架构映射到系统架构的过程，以后业务架构调整了能快速的调整技术架构。</p>
+<h3 id="DDD中的领域如何理解？"><a href="#DDD中的领域如何理解？" class="headerlink" title="DDD中的领域如何理解？"></a>DDD中的领域如何理解？</h3><p>DDD中表示业务逻辑的领域概念是：实体、值对象、领域服务、领域事件。这意味着所有领域逻辑都应该在这四种对象里，统一称为领域模型对象，这将极大减少业务逻辑的蔓延。</p>
+<p>引入聚合进一步封装实体和值对象，让领域逻辑更内聚，起到边界保护的作用。聚合的引入使得业务对象间的关联变少。如何设计聚合见下面实践部分。</p>
+<p>围绕聚合的操作引入工厂和资源库。工厂负责复杂聚合的创建，资源库负责聚合的加载、添加、修改、删除。聚合内的实体状态变更通过领域事件来推动。</p>
+<p>引入应用服务，对领域逻辑编排、封装。供上层接口层调用。一个应用服务就是一次编排，一次编排就是一个用户用例。</p>
+<h3 id="DDD领域概念详细解释和举例"><a href="#DDD领域概念详细解释和举例" class="headerlink" title="DDD领域概念详细解释和举例"></a>DDD领域概念详细解释和举例</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>定义</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实体</td>
+<td>实体一般对应业务对象，具有业务属性和业务行为</td>
+<td>线索是个实体，线索的状态会随着跟进活动的推进随时变化，需要根据唯一标识来追踪变化</td>
+</tr>
+<tr>
+<td>值对象</td>
+<td>值对象主要是属性集合，对实体的状态、特征进行业务语义的描述</td>
+<td>线索上的联系方式信息是值对象，包含联系方式类型和联系方式内容，不需要唯一标识去追踪联系方式的变化过程，整体替换新联系方式</td>
+</tr>
+<tr>
+<td>聚合</td>
+<td>聚合是由业务和逻辑紧密关联的实体和值对象组成的，是数据修改和持久化的基本单元</td>
+<td>线索是个聚合，线索实体是该聚合的根实体，状态信息、联系方式信息等是附属聚合的值对象</td>
+</tr>
+<tr>
+<td>资源库</td>
+<td>资源库是对资源访问的抽象。不局限于数据库、文件、网络存储。接口需要不依赖于具体的数据存储和ORM实现框架</td>
+<td>线索这个聚合的访问通过线索资源库提供，资源库的实现因技术选型不同而不同，可以是数据库、文件等</td>
+</tr>
+<tr>
+<td>领域事件</td>
+<td>表示领域中所发生的重要事件，事件发生后通常会导致进一步的业务操作，或者在系统其他地方引起反应</td>
+<td>线索创建后会产生线索已创建领域事件，后续的线索分配服务、打标签服务可以监听该事件启动相应操作</td>
+</tr>
+<tr>
+<td>领域服务</td>
+<td>领域服务没有任何属性或数据，只是一个领域行为或动作，不适合放在任何聚合内的逻辑行为</td>
+<td>线索的查重行为属于领域服务，单个线索自身没法完成查重行为</td>
+</tr>
+<tr>
+<td>应用服务</td>
+<td>应用服务对应到一个具体业务场景，通过编排聚合、资源库、领域事件、外部适配接口、领域服务来完成</td>
+<td>线索创建这个场景对应线索创建应用服务，该服务会编排线索查重、线索聚合创建、线索资源库创建、线索已创建领域事件发送等</td>
+</tr>
+</tbody></table>
+<h2 id="DDD如何开展？"><a href="#DDD如何开展？" class="headerlink" title="DDD如何开展？"></a>DDD如何开展？</h2><p>DDD包含战略设计、战术设计、技术实现三个部分。战略设计侧重于高层次、宏观上去划分限界上下文，而战术设计则关注使用建模工具来细化上下文，通过领域模型来表达业务。技术实现主要通过分层架构来隔离领域模型代表的业务逻辑和技术细节。一个整体过程大致包括：宏观划分各领域 → 领域内划分限界上下文，定义上下文之间的关系 → 上下文内分析业务，识别领域概念，定义合适的领域概念 → 通过分层架构实现编码，并验证领域模型的合理性，必要时重新回到前面步骤重构领域模型。</p>
+<h3 id="DDD过程"><a href="#DDD过程" class="headerlink" title="DDD过程"></a>DDD过程</h3><p>领域驱动设计是一套面对复杂业务进行建模和设计的方法论和实践，建立了以领域为核心驱动力的设计体系。领域驱动设计分为 2 个主要过程：战略设计、战术设计 。</p>
+<p><img src="domain.png" alt="img"></p>
+<h3 id="战略设计"><a href="#战略设计" class="headerlink" title="战略设计"></a>战略设计</h3><p>战略设计是团队领导层或业务负责人关心的，该步骤需要针对产品愿景、业务要解决的问题域，规划核心域、通用域、支撑域，做合适的资源投入。</p>
+<h4 id="什么是领域和限界上下文？"><a href="#什么是领域和限界上下文？" class="headerlink" title="什么是领域和限界上下文？"></a>什么是领域和限界上下文？</h4><p>领域代表现实世界的特定问题和解决方案的集合，比如销售领域、营销领域。DDD里的限界上下文（Bouded Context）是对领域的软件实现，比如线索系统、商机系统就是销售领域内的限界上下文。限界上下文定义了解决方案的明显边界，边界里的每一个领域概念，包括领域概念内的属性和行为都有特殊含义。出了限界上下文这个边界这层含义就不复存在。</p>
+<h4 id="如何划分限界上下文？"><a href="#如何划分限界上下文？" class="headerlink" title="如何划分限界上下文？"></a>如何划分限界上下文？</h4><ul>
+<li>根据相关性做归类。一般是优先考虑功能相关性而不是语义相关性，比如创建订单和支付订单都是订单语义，但功能相差比较大，应该划分为两个限界上下文。</li>
+</ul>
+<ul>
+<li>根据团队粒度做裁剪、根据技术特点做裁剪。一些通用的技术功能应该尽可能归拢到一个限界上下文，比如每个业务限界上下文都有监控，但监控能力应该归拢到监控限界上下文。</li>
+</ul>
+<h4 id="BC与微服务什么关系？"><a href="#BC与微服务什么关系？" class="headerlink" title="BC与微服务什么关系？"></a>BC与微服务什么关系？</h4><p>微服务是包含高度相关功能的一个开发部署单元，有自己的技术自治性包括技术选型、弹性扩缩容、发布上线频率等，有自己的业务演变自治性。BC是根据领域逻辑的内聚情况形成的一个整体。一个微服务可以包含一个或多个BC，到底包含几个？需要根据团队大小、BC复杂度和技术特性来定。</p>
+<h3 id="战术设计"><a href="#战术设计" class="headerlink" title="战术设计"></a>战术设计</h3><p>DDD设计思想里领域建模是最核心的一步，该阶段主要目标是提炼和定义出领域模型和之间的关系。</p>
+<h4 id="领域建模"><a href="#领域建模" class="headerlink" title="领域建模"></a>领域建模</h4><p>建模就是设计的过程，建模的过程就是梳理、走查业务逻辑，拆解为要解决的问题和涉及的业务场景、业务流程、业务概念，在这个过程中形成对应的领域概念。</p>
+<p>如果团队对于业务比较陌生适合采用事件风暴方法进行梳理；如果团队对业务比较熟悉，如果业务流程相对简单，则可以采用四色建模法进行业务梳理。采用这些分析业务的方法可以保证产研团队对业务逻辑的理解在一个水平上。</p>
+<h4 id="业务逻辑的显性表达"><a href="#业务逻辑的显性表达" class="headerlink" title="业务逻辑的显性表达"></a>业务逻辑的显性表达</h4><p>在完成了实体和值对象的设计后，有的时候会发现有些概念其实在领域上是存在的，但设计和代码里没有Class来体现，可能仅仅是一个基本类型参数加上散落的对该参数的判断检验逻辑，这个时候还需要思考应该把这个概念显性化，定义专门的Class并包含相应逻辑，入出参以相应Class为类型。但凡业务代码逻辑包含了一堆if-else，这时候需要考虑尽可能给这段逻辑建模成一个领域概念。</p>
+<p>比如CRM系统里判断一条线索是否为推广线索需要看线索的渠道属性是否来自推广平台，那么比较好的方式是这段逻辑用”推广线索”这个概念来显性表达，而不是淹没在代码里不容易理解和维护。</p>
+<h4 id="统一语言"><a href="#统一语言" class="headerlink" title="统一语言"></a>统一语言</h4><p>为了解决业务逻辑衔接的问题引入了统一语言。每个业务名词的含义具有明确的定义，产品和研发都统一认识。没有统一语言的沟通严重缺乏效率。比如CRM线索的概念，没有统一语言的时候每个人的理解不一样，有的人理解为有过咨询记录的访客是线索，有的人理解为留下过联系方式的访客是线索，有的人理解为有购买意愿的访客是线索等等。</p>
+<p>有了统一语言描述，每个概念就有了明确定义，可以节省非常大的沟通交流成本。并且这个概念也同样应用在相关的需求文档、设计文档、代码编写中。每个概念从引入到日常交流，从需求文档到代码实现都有了一致的表达，代码实现和需求描述的真实度高，可理解性和可维护性就变好了。</p>
+<h3 id="技术实现"><a href="#技术实现" class="headerlink" title="技术实现"></a>技术实现</h3><h4 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h4><p>为了让代码实现围绕领域模型开展，尽量降低业务代码和纯技术选型代码的耦合，DDD引入了分层架构。确保了最核心的领域层不依赖其他层，反过来让领域之外的代码依赖领域代码，降低了技术升级带来的影响。</p>
+<h4 id="DDD框架"><a href="#DDD框架" class="headerlink" title="DDD框架"></a>DDD框架</h4><p>框架内定义不同领域概念需要实现的接口，比如实现了聚合根接口的实体类就成为了聚合的根实体。定义了异常管理规范，不同的分层应该抛出什么类型的异常。定义了数据访问的资源库接口等等。</p>
+<h4 id="领域事件"><a href="#领域事件" class="headerlink" title="领域事件"></a>领域事件</h4><p>领域事件是对领域内发生的活动进行的建模，即聚合内的实体状态变化的一个载体。DDD提倡限界上下文间尽量解耦，尽可能使用发布订阅领域事件的协作模式进行上下游解耦。</p>
+<h2 id="DDD-vs-数据模型驱动"><a href="#DDD-vs-数据模型驱动" class="headerlink" title="DDD vs 数据模型驱动"></a>DDD vs 数据模型驱动</h2><p>传统的业务开发模式里，研发受到关系型数据库设计范式、ER图等影响深远，在做软件详细设计过程中往往先想到如何设计对应的表结构，由此倒推出业务逻辑代码该如何组织。这就是典型的数据模型驱动设计，或者叫面向数据表设计编程。数据模型设计关注的是数据存储，数据尽量不要冗余，控制表数量不膨胀，更多考虑数据的扩展性，比如新加一个字段尽量不要在几张表都加，能用一个字段表达就不用两个字段。</p>
+<p>这样的思维跟DDD是相反的，DDD优先考虑领域概念的业务语义表达，具有独立业务概念的东西会尽量抽象成一个内聚的领域对象。领域对象不仅仅有属性，还有该有的行为。</p>
+<p>因此，基于数据模型驱动的设计结果往往是：</p>
+<ul>
+<li>业务逻辑代码非常过程式，领域实体只包含一堆属性，只是数据表的映射，没有业务行为。也就是常说的只有getter和setter方法的贫血对象。非常缺乏领域概念的表达，业务逻辑散乱。比如值对象的设计在DDD里是一个类，在数据模型设计里往往是其他类的几个属性。</li>
+</ul>
+<ul>
+<li>聚合是DDD最小的复用单元，粒度更粗。数据模型设计里领域实体的数量跟表数量一一对应，数据表是最小的复用单元，粒度太细。导致业务逻辑对应的实现类需要访问很多的领域实体，实现类之间的调用关系发散而错综复杂。下图是贫血模型和DDD富血模型的区别。</li>
+</ul>
+<p><img src="2021052622.webp.jpg" alt="img"></p>
+<ul>
+<li>数据表的关系表达很受限，具有主从关系的表之间很难看出主从。在DDD里聚合和聚合内的实体、值对象之间的关系在代码层面有显示的表达。</li>
+</ul>
+<p>当然，DDD思想里不是说不用考虑数据表设计，而是要优先考虑领域概念的识别和建模。表设计需要服务于领域模型的设计，是技术实现的细节。因此明白DDD和数据模型驱动设计的区别反过来能更好地理解DDD。</p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/07/19/api-test-design/" data-toggle="tooltip" data-placement="top" title="接口测试">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <div id="gitalk-container"></div>
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#DDD" title="DDD">DDD</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://weijie.live" target="_blank">weijie&#39;s live</a></li>
+                    
+                        <li><a href="https://demo.weijie.live" target="_blank">demo</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+<script>
+    var gitalk = new Gitalk({
+        id: decodeURI(location.pathname),
+        clientID: '80dac5675f164dccc899',
+        clientSecret: '511d687a42267f465ff49b3e3dcbdb9a2dc1c88d',
+        repo: 'hexo-blog',
+        owner: 'luanweijie',
+        admin: ['luanweijie'],
+        labels: ['gitment'],
+        perPage: 50,
+    })
+    gitalk.render('gitalk-container')
+</script>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+        //   visible: 'always',
+          placement: 'right',
+        //   icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/atom.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/3948757700">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luanweijie">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Weijie&#39;s Blog 2021 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=luanweijie&repo=hexo-blog&type=star&count=true" >
+                    </iframe>
+                    <br>
+                    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://hexo.weijie.live/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- busuanzi Analytics -->
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '3f4bd38541fe49d20035b28a70c089ae';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://cdn.jsdelivr.net/gh/luanweijie/hexo-blog@master/source/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
